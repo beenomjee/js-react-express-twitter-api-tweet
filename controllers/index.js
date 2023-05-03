@@ -1,1 +1,1 @@
-export { createTweet, getTweets } from "./twitter.controllers.js";
+export { createTweet, getTweets, deleteTweet } from "./twitter.controllers.js";

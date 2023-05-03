@@ -18,11 +18,21 @@ export const createTweet = async (req, res) => {
 export const getTweets = async (req, res) => {
   try {
     const user = await twitterClient.currentUserV2();
-    const response = await twitterClient.v2.userTimeline(user.data, {
-      tweetFields: "created_at",
+    const response = await twitterClient.v2.user(user.data.id);
+    console.log("Retrieved tweets:", response.data);
+  } catch (err) {
+    return res.status(500).json({ error: err });
+  }
+};
+
+export const deleteTweet = async (req, res) => {
+  try {
+    const { id } = req.body;
+    if (!id) return res.status(400).json({ error: "All Field are required!" });
+    const response = await twitterClient.v2.deleteTweet(id);
+    return res.status(200).json({
+      message: "Tweet Deleted Successfully!",
     });
-    const tweets = response.data;
-    console.log("Retrieved tweets:", tweets);
   } catch (err) {
     return res.status(500).json({ error: err });
   }
